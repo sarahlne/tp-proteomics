@@ -403,6 +403,9 @@ Nous evaluerons la significativité de la présence de tous les termes GO porté
 
 Si k protéines surabondantes porte un terme GO, la pvalue de ce terme sera équivalente à <img src="https://render.githubusercontent.com/render/math?math=P(X\ge k), X \sim H(k,K,n,N)">.
 Completer le tableau ci-dessous avec les quantités vous  semblant adéquates
+```
+On obtient 82 termes GO correspondants aux protéines abondantes, il faut maintenant voir quelles sont les fonctions biologiques ressortissantes. 
+```
 
 | Symbole | Paramètre | Quantités Biologique |
 | --- | --- | --- |
