@@ -37,13 +37,13 @@ Cette partie du TP est découpée en 4 grandes parties avec pour chacune des par
 ##### En quoi consiste l’approche Shotgun proteomics?
 
 ```
-
+C'est un type d'approche bottomp-up passociée à la chromatographie liquide et la spectrométrie de masse. C'est technique qui consiste à comparer la liste des masses des fragments peptidiques expérimentaux ainsi que la liste des peptides issues de la digéstion théoriques des protéines issues des base de données
 ```
 
 ##### Quel est l’objectif de cette approche ?
 
 ```
-
+L'objectif ici est d'identifier des protéines entre les échantillons afin de tirer une informations sur les bio-marqueurs.
 ```
 
 #### Procédure
@@ -59,38 +59,40 @@ Cette partie du TP est découpée en 4 grandes parties avec pour chacune des par
 ##### L’identification des protéines/ peptides se réalise grâce à une base de données de protéines. Quelle comparaison va être effectuée?
 
 ```
-
+La comparaison qui sera effectuée est la comparaison des masses des fragments des peptides expérimentaux aux protéome d'E.coli. (téléchargé sur Uniprot)
 ```
 
 ##### Existe t’il d’autres types de bases de données pour réaliser l’identification des peptides trypsiques dans un spectre?
 
 ```
-
+D'autres bases de données comme Swissprot et Trembl peuvent être utilisé pour cette approche mais sont peut être moins exhaustive.
+On pourrait également utiliser des bases de données spectrales qui coniennent directement les spectres issus des spectrométries de masse et pas seulement les valeurs des masses.
 ```
 
 ##### Est-ce qu’il est possible d’identifier des peptides sans base de données?
 ```
-
+Oui il est possible d'identifier des peptides sans bases de données, à l'aide de librairies spectrales qui permettent de réaliser des comp
 ```
 ##### Combien de protéines sont identifiées dans le protéome bactérien?
 ```
-
+On réussi à identifier 4391 protéines. 
 ```
 ##### Comment la liste des séquences des protéines est-elle établie ? Est-elle complète? 
 ```
-
+Elles sont ou annotées manuellement avec Swissprot, ou sinon chargées de façon automatiquement (in silico) grâce à Trembl. Elles ne sont pas complètes.
 ```
 ##### Quelle est la différence entre des séquences Swiss-prot et TremBL?
 ```
-
+Les séquences Swissrprot son currées et annotées manuellement tandis que les trembl sont des annotations in sillico
+On est donc dépendant des bases de données et on a donc parfois de nombreuses séquences TrembL.
 ```
 ##### A quoi correspond la protéine P00761 et quelle est sa fonction ? 
 ```
-
+Elle correspond à la trypsine et c'est elle qui nous permet de faire la digestion. Elle digère les séquences peptiques après les lysines et les arginines.
 ```
 ##### Pourquoi doit-on rajouter cette protéine dans le fichier FASTA final du protéome bactérien?
 ```
-
+On la rajoute pour éviter au logiciel de faire des approximation. Parce qu'on souhaite s'affranchir de la fausse identification car la trypsine sera déjà présente dans l'échantillon.
 ```
 
 ### Création de la « peak list »
@@ -114,7 +116,9 @@ De nombreux petits logiciels existent pour convertir vos fichiers bruts dans un 
 ##### Les données de QExactive ont été enregistrées en mode centroïde et non pas en mode Profiling. D’après vous quelle est la différence entre les deux modes?
 
 ```
-
+La différence réside en le nombre de pics présents sur le spectre. 
+Le profilling va réaliser plus d'acquisition de données qui vont permettre de faire correctement apparaître un pic et différencier les peptides des bruits. 
+A le mode centroïde ne fait apparaître qu'un pics par peptides chargé, qui correspond au maximumlocal retenu par un algorithme après traitement du signal. Cette méthode permet de réduire la taille du fichier en sortie.
 ```
 
 ### Identification des peptides par approche PSM Peptide to Spectrum Matching
@@ -137,28 +141,37 @@ NB : si vous avez des messages d’erreur qui s’affichent (missing precursor c
 #### Questions 
 ##### Pourquoi est-il important de bien choisir sa base de données?
 ```
+Le choix de la base de données est très important dans le nombre de "hit" retenus après identification.
+En effet, plus la base de données est grosse, plus le nombre de résultats sera grands et non exhaustif (grand nombre de faux positifs).
 ```
 ##### Est-ce que l’on retrouvera toujours les mêmes protéines au cours du temps ?
 ```
+Non car les bases de données évoluent très vite en fonctions des découvertes expérimentales. C'est pour cela qu'il faut toujours spécifier la date et la méthode lors de la présentation des résultats
 ```
 
 ##### Comment la taille de la base de données peut affecter le score de la protéine recherchée?
 ```
+Plus la base est grande est plus on a une chance d'obtenir des protéines identifiées, cependant celles ci ne présenteront pas forcément des scores pertinents. Cependant, il est tout de même possible de modifier les paramètres de recherches afin de mieux profiter de la richesse de ces bases.
 ```
 
 ##### Est-ce que les modifications ajoutées sont les seules modifications que l’on peut attendre dans une expérience de shotgun proteomics?
 ```
+Les modifications ajoutées ne sont pas forcément les seules auxquelles on peut s'attendre dans une expérience de shotgun protéomique. En effet, on peut spécifiées les modification connues, mais les protéines peuvent tout de même subir d'autres modifications post traductionelles ou encore des oxydations spontannées.
 ```
 
 ##### Vous avez choisi la trypsine comme enzyme et choisi « specific », qu’est-ce que cela signifie, et comment cela peut affecter le processing ? 
 ```
+On dit qu'elle est bien spécifique car on veut qu'elle coupe correctement et bien après la lysine et l'arginine car si on ne tolère pas une bonne spécificité, on pourrait avoir une mauvaise identification des peptide. Cela va affecter le processing dans le sens ou la digestion théorique ne vas couper les séquences peptidiques que après ces acides aminés
 ```
 
 ##### Qu’est-ce qu’un missed cleavage ? pourquoi 2 et pas 0 ?
 ```
+Un désigne par miscleavage le fait que la lysine rate un clivage dans la séquence peptidique. On le fixe à 2 dans les paramètres car on considère qu'il est presque impossible qu'une trypsine ne réalise aucun miscleavage.
 ```
 ##### Qu’est-ce que la tolérance en masse, comment la calcule-t-on ?
 ```
+Elle correspond à l’écart de masse maximum toléré entre la masse du peptide expérimental et la
+masse du peptide qui « matche » dans la banque, elle s'exprime en Da ou ppm. Elle dépende de la résolution de l'appareil ainsi que de la qualité de la calibration.
 ```
 
 ### Visualisation des PSM, peptides - protéines
@@ -301,7 +314,7 @@ Representer graphiquement les données d'abondance et construire la pvalue des f
 
 ##### 3. A partir de cette échantillon de ratio d'abondance,  estimez la moyenne <img src="https://render.githubusercontent.com/render/math?math=\mu"> et l'ecart-type <img src="https://render.githubusercontent.com/render/math?math=\sigma"> d'une loi normale.
 ```
-
+La moyenne obtenue de l'échantillon est de -0.6386 pour un écart-type de 0.22155
 
 ```
 
@@ -316,13 +329,13 @@ scale = len(_)*dx # scale accordingly
 ax.plot(x, norm.pdf(x, mu, sqrt(S_2))*scale) # compute theoritical PDF and draw it
 ```
 
-![Histogramme à inserez ici](histogram_log2FC.png "Title")
+![Histogramme à inserez ici](assets/histogram.png "Title")
+
 
 ##### 5. Quelles remarques peut-on faire à l'observation de l'histogramme et de loi théorique?
 
 ```
-
-
+Le log 2 représente le rapport entre les protéines trouvés dans la condition expérimentales p/r au protéines observées dans la condition de contrôle. On remarque que la majorité des rapport ets inférieur à 1 donc on en présence de tétracylcine, les protéines sont exprimées en moins grande quantité.
 ```
 
 #### Construction d'un volcano plot
@@ -335,7 +348,7 @@ Sont condidérées comme surabondantes les proteines remplissant ces deux critè
 * <img src="https://render.githubusercontent.com/render/math?math=\text{Log}_2(\text{abundance ratio})\gt\mu%2B\sigma">  
 * <img src="https://render.githubusercontent.com/render/math?math=\text{p-value}>0.001">
 
-![Volcano plot + quadrant à inserez ici](histogram_log2FC.png "Title")
+![Volcano plot + quadrant à inserez ici](assets/volcano_plot.png "Title")
 
 ### Analyse Fonctionelle de pathway
 
@@ -345,10 +358,30 @@ Nous allons implementer une approche ORA (Over Representation Analysis) naive.
 
 Quelles sont leurs identifiants UNIPROT ?
 ``` 
+Après avoir sélectionner les protéines les plus abondantes selon le volcano plot, on obtient le tableau:
+```
 
+![Volcano plot + quadrant à inserez ici](assets/abundants_proteins.PNG "Title")
 
 
 ```
+On obtient donc la liste suivante:
+```
+* P0A8V6
+* P0A9Q1
+* P02358
+* P0ACF8
+* P62399
+* P0A905
+* P76506
+* P13036
+* P10384
+* P06971
+* P0A910
+* P06996
+* P76344
+* P02931
+
 
 #### 2. Lister les termes GO portés par ces protéines surabondates
 
